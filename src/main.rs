@@ -27,7 +27,11 @@ Examples:
   git ls-files | loc
   find src/ -name '*.rs' | loc")]
 #[command(help_template = "{about}\n\n{all-args}{after-help}\n\nAuthor: {author}")]
-struct CliArgs {}
+struct CliArgs {
+    /// Print supported languages and their file patterns, then exit
+    #[arg(long)]
+    languages: bool,
+}
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Stats {
@@ -80,9 +84,21 @@ fn process_file(path: &str, registry: &LanguageRegistry) -> Option<(LanguageId, 
 }
 
 fn main() {
-    CliArgs::parse();
+    let args = CliArgs::parse();
 
     let registry = LanguageRegistry::new();
+
+    if args.languages {
+        let width = registry
+            .all_languages_with_patterns()
+            .map(|(_, name, _)| name.len())
+            .max()
+            .unwrap();
+        for (_, name, patterns) in registry.all_languages_with_patterns() {
+            println!("{:<width$}  {}", name, patterns.join("  "));
+        }
+        return;
+    }
 
     let (tx, rx) = mpsc::sync_channel::<String>(1024);
     std::thread::spawn(move || {
