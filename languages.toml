@@ -135,6 +135,10 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { 
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
 
 [[language]]
+name = "JSON"
+patterns = ["*.json"]
+
+[[language]]
 name = "Julia"
 patterns = ["*.jl"]
 interpreters = ["julia"]
@@ -164,7 +168,7 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { 
 
 [[language]]
 name = "Make"
-patterns = ["*.mk", "Makefile", "GNUmakefile", "Makefile.*"]
+patterns = ["*.mk", "*.mak", "Makefile", "GNUmakefile", "Makefile.*"]
 line_comment = "#"
 
 [[language]]
@@ -192,7 +196,7 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { 
 
 [[language]]
 name = "Perl"
-patterns = ["*.pl"]
+patterns = ["*.pl", "*.pm"]
 interpreters = ["perl"]
 line_comment = "#"
 
