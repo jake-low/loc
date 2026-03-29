@@ -1,0 +1,9 @@
+Smoke test: code, blank line, and block comment
+lines=6 code=4 comments=1 blank=1
+---
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- greets the user -->
+<greeting>
+  <message>hello, world!</message>
+</greeting>

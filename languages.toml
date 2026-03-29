@@ -1,4 +1,9 @@
 [[language]]
+name = "Assembly"
+extensions = ["asm", "s"]
+line_comment = ";"
+
+[[language]]
 name = "C"
 extensions = ["c", "h"]
 line_comment = "//"
@@ -24,6 +29,16 @@ block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
+name = "Clojure"
+extensions = ["clj", "cljs", "cljc"]
+line_comment = ";"
+
+[[language]]
+name = "Config"
+extensions = ["conf"]
+line_comment = "#"
+
+[[language]]
 name = "CSS"
 extensions = ["css"]
 block_comment_start = "/*"
@@ -31,9 +46,36 @@ block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
-name = "Config"
-extensions = ["conf"]
+name = "Dart"
+extensions = ["dart"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+
+[[language]]
+name = "Dockerfile"
+extensions = ["dockerfile"]
+filenames = ["Dockerfile"]
+filename_prefixes = ["Dockerfile."]
 line_comment = "#"
+
+[[language]]
+name = "Elixir"
+extensions = ["ex", "exs"]
+interpreters = ["elixir"]
+line_comment = "#"
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+
+[[language]]
+name = "F#"
+extensions = ["fs", "fsi", "fsx"]
+line_comment = "//"
+block_comment_start = "(*"
+block_comment_end = "*)"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
 
 [[language]]
 name = "Go"
@@ -43,6 +85,37 @@ block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = false }]
+
+[[language]]
+name = "Groovy"
+extensions = ["groovy", "gradle"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+
+[[language]]
+name = "HCL"
+extensions = ["hcl", "tf"]
+line_comment = "#"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
+name = "HTML"
+extensions = ["html", "htm"]
+block_comment_start = "<!--"
+block_comment_end = "-->"
+
+[[language]]
+name = "Haskell"
+extensions = ["hs"]
+line_comment = "--"
+block_comment_start = "{-"
+block_comment_end = "-}"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
 name = "Java"
@@ -64,11 +137,62 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { 
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
 
 [[language]]
+name = "Julia"
+extensions = ["jl"]
+interpreters = ["julia"]
+line_comment = "#"
+block_comment_start = "#="
+block_comment_end = "=#"
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }]
+
+[[language]]
+name = "Kotlin"
+extensions = ["kt", "kts"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
+name = "Lua"
+extensions = ["lua"]
+interpreters = ["lua"]
+line_comment = "--"
+block_comment_start = "--[["
+block_comment_end = "]]"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
 name = "Make"
 extensions = ["mk"]
 filenames = ["Makefile", "GNUmakefile"]
 filename_prefixes = ["Makefile."]
 line_comment = "#"
+
+[[language]]
+name = "Nix"
+extensions = ["nix"]
+line_comment = "#"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
+name = "OCaml"
+extensions = ["ml", "mli"]
+block_comment_start = "(*"
+block_comment_end = "*)"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
+name = "Objective-C"
+extensions = ["m", "mm"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
 name = "Perl"
@@ -77,12 +201,28 @@ interpreters = ["perl"]
 line_comment = "#"
 
 [[language]]
+name = "PHP"
+extensions = ["php"]
+interpreters = ["php"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
 name = "Python"
 extensions = ["py"]
 interpreters = ["python", "python2", "python3"]
 line_comment = "#"
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
 docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+
+[[language]]
+name = "R"
+extensions = ["r", "R"]
+interpreters = ["Rscript"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
 name = "Ruby"
@@ -99,10 +239,27 @@ block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
+name = "Scala"
+extensions = ["scala"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
 name = "Shell"
 extensions = ["sh", "bash", "zsh"]
 interpreters = ["sh", "bash", "dash", "zsh"]
 line_comment = "#"
+
+[[language]]
+name = "SQL"
+extensions = ["sql"]
+line_comment = "--"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
 name = "Swift"
@@ -128,6 +285,18 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { 
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
 
 [[language]]
+name = "XML"
+extensions = ["xml"]
+block_comment_start = "<!--"
+block_comment_end = "-->"
+
+[[language]]
 name = "YAML"
 extensions = ["yaml", "yml"]
 line_comment = "#"
+
+[[language]]
+name = "Zig"
+extensions = ["zig"]
+line_comment = "//"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
