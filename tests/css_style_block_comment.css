@@ -1,0 +1,7 @@
+CSS has only block comments, no line comments
+lines=4 code=3 comments=1 blank=0
+---
+/* Comment */
+body {
+    color: red;
+}

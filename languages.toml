@@ -1,0 +1,133 @@
+[[language]]
+name = "C"
+extensions = ["c", "h"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "C#"
+extensions = ["cs"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }, { open = '@"', close = '"', backslash_escapes = false }]
+
+[[language]]
+name = "C++"
+extensions = ["cpp", "hpp", "cc", "hh", "cxx"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "CSS"
+extensions = ["css"]
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "Config"
+extensions = ["conf"]
+line_comment = "#"
+
+[[language]]
+name = "Go"
+extensions = ["go"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = "`", close = "`", backslash_escapes = false }]
+
+[[language]]
+name = "Java"
+extensions = ["java"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
+name = "JavaScript"
+extensions = ["js", "mjs", "jsx"]
+interpreters = ["node", "nodejs"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
+
+[[language]]
+name = "Make"
+extensions = ["mk"]
+filenames = ["Makefile", "GNUmakefile"]
+filename_prefixes = ["Makefile."]
+line_comment = "#"
+
+[[language]]
+name = "Perl"
+extensions = ["pl"]
+interpreters = ["perl"]
+line_comment = "#"
+
+[[language]]
+name = "Python"
+extensions = ["py"]
+interpreters = ["python", "python2", "python3"]
+line_comment = "#"
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+
+[[language]]
+name = "Ruby"
+extensions = ["rb"]
+interpreters = ["ruby"]
+line_comment = "#"
+
+[[language]]
+name = "Rust"
+extensions = ["rs"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
+name = "Shell"
+extensions = ["sh", "bash", "zsh"]
+interpreters = ["sh", "bash", "dash", "zsh"]
+line_comment = "#"
+
+[[language]]
+name = "Swift"
+extensions = ["swift"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+
+[[language]]
+name = "TOML"
+extensions = ["toml"]
+line_comment = "#"
+
+[[language]]
+name = "TypeScript"
+extensions = ["ts", "tsx"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
+
+[[language]]
+name = "YAML"
+extensions = ["yaml", "yml"]
+line_comment = "#"
