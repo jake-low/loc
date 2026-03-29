@@ -7,7 +7,7 @@ use std::path::Path;
 pub struct LanguageId(usize);
 
 pub struct LanguageRegistry {
-    languages: Vec<(&'static str, LangSyntax)>,
+    languages: Vec<(&'static str, LangSyntax, &'static [&'static str])>,
     ext_map: HashMap<&'static str, LanguageId>,
     filename_map: HashMap<&'static str, LanguageId>,
     filename_prefix_list: Vec<(&'static str, LanguageId)>,
@@ -38,24 +38,22 @@ impl LanguageRegistry {
     pub fn get_language(&self, path: &str) -> Option<(LanguageId, &LangSyntax)> {
         let path_obj = Path::new(path);
 
-        if let Some(filename) = path_obj.file_name().and_then(|f| f.to_str()) {
-            let lower = filename.to_lowercase();
-
-            if let Some(id) = self.filename_map.get(lower.as_str()) {
+        // Fast path: extension lookup (case-sensitive).
+        if let Some(ext) = path_obj.extension().and_then(|e| e.to_str()) {
+            if let Some(id) = self.ext_map.get(ext) {
                 return Some((*id, &self.languages[id.0].1));
-            }
-
-            for (prefix, id) in &self.filename_prefix_list {
-                if lower.starts_with(prefix) {
-                    return Some((*id, &self.languages[id.0].1));
-                }
             }
         }
 
-        if let Some(ext) = path_obj.extension().and_then(|e| e.to_str()) {
-            let lower = ext.to_lowercase();
-            if let Some(id) = self.ext_map.get(lower.as_str()) {
+        // Fallback: exact filename and prefix pattern checks (case-sensitive).
+        if let Some(filename) = path_obj.file_name().and_then(|f| f.to_str()) {
+            if let Some(id) = self.filename_map.get(filename) {
                 return Some((*id, &self.languages[id.0].1));
+            }
+            for (prefix, id) in &self.filename_prefix_list {
+                if filename.starts_with(prefix) {
+                    return Some((*id, &self.languages[id.0].1));
+                }
             }
         }
 
@@ -97,6 +95,15 @@ impl LanguageRegistry {
             let second = words.next()?.to_lowercase();
             self.interpreter_map.get(second.as_str()).copied()
         }
+    }
+
+    pub fn all_languages_with_patterns(
+        &self,
+    ) -> impl Iterator<Item = (LanguageId, &str, &'static [&'static str])> + '_ {
+        self.languages
+            .iter()
+            .enumerate()
+            .map(|(i, (name, _, patterns))| (LanguageId(i), *name, *patterns))
     }
 
     pub fn language_name(&self, id: LanguageId) -> &str {

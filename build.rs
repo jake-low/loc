@@ -14,21 +14,26 @@ struct Config {
 #[derive(Deserialize)]
 struct LanguageDef {
     name: String,
+
+    /// Glob-style filename patterns for this language. Supports:
+    /// - `*.ext` matches any file with the given extension
+    /// - `Name` matches the exact filename
+    /// - `Prefix*` matches any filename starting with `Prefix`
     #[serde(default)]
-    extensions: Vec<String>,
-    #[serde(default)]
-    filenames: Vec<String>,
-    #[serde(default)]
-    filename_prefixes: Vec<String>,
+    patterns: Vec<String>,
+
     #[serde(default)]
     interpreters: Vec<String>,
     line_comment: Option<String>,
     block_comment_start: Option<String>,
     block_comment_end: Option<String>,
+
     #[serde(default)]
     single_line_strings: Vec<StringDelimiterDef>,
+
     #[serde(default)]
     multiline_strings: Vec<StringDelimiterDef>,
+
     #[serde(default)]
     docstring_delimiters: Vec<StringDelimiterDef>,
 }
@@ -90,6 +95,12 @@ fn gen_lang_data(out_dir: &str) {
     writeln!(out).unwrap();
 
     for (i, lang) in config.language.iter().enumerate() {
+        write!(out, "static LANG_{i}_PATTERNS: &[&str] = &[").unwrap();
+        for p in &lang.patterns {
+            write!(out, "{:?},", p).unwrap();
+        }
+        writeln!(out, "];").unwrap();
+
         emit_delimiter_array(&mut out, &format!("LANG_{i}_SL"), &lang.single_line_strings);
         emit_delimiter_array(&mut out, &format!("LANG_{i}_ML"), &lang.multiline_strings);
         emit_delimiter_array(
@@ -103,7 +114,7 @@ fn gen_lang_data(out_dir: &str) {
     writeln!(
         out,
         "fn build_registry() -> (
-    Vec<(&'static str, LangSyntax)>,
+    Vec<(&'static str, LangSyntax, &'static [&'static str])>,
     HashMap<&'static str, LanguageId>,
     HashMap<&'static str, LanguageId>,
     Vec<(&'static str, LanguageId)>,
@@ -113,7 +124,7 @@ fn gen_lang_data(out_dir: &str) {
     .unwrap();
     writeln!(
         out,
-        "    let mut languages: Vec<(&'static str, LangSyntax)> = Vec::new();"
+        "    let mut languages: Vec<(&'static str, LangSyntax, &'static [&'static str])> = Vec::new();"
     )
     .unwrap();
     writeln!(
@@ -166,27 +177,41 @@ fn gen_lang_data(out_dir: &str) {
         writeln!(out, "            single_line_strings: LANG_{i}_SL,").unwrap();
         writeln!(out, "            multiline_strings: LANG_{i}_ML,").unwrap();
         writeln!(out, "            docstring_delimiters: LANG_{i}_DS,").unwrap();
-        writeln!(out, "        }}));").unwrap();
+        writeln!(out, "        }}, LANG_{i}_PATTERNS));").unwrap();
 
-        for ext in &lang.extensions {
-            writeln!(out, "        ext_map.insert({:?}, id);", ext.to_lowercase()).unwrap();
+        for pattern in &lang.patterns {
+            let star_count = pattern.bytes().filter(|&b| b == b'*').count();
+            match star_count {
+                0 => {
+                    writeln!(out, "        filename_map.insert({:?}, id);", pattern).unwrap();
+                }
+                1 => {
+                    if let Some(ext) = pattern.strip_prefix("*.") {
+                        writeln!(out, "        ext_map.insert({:?}, id);", ext).unwrap();
+                    } else if pattern.ends_with("*") {
+                        let prefix = &pattern[..pattern.len() - 1];
+                        writeln!(
+                            out,
+                            "        filename_prefix_list.push(({:?}, id));",
+                            prefix
+                        )
+                        .unwrap();
+                    } else {
+                        panic!(
+                            "Unsupported pattern {:?} in language {:?}",
+                            pattern, lang.name
+                        );
+                    }
+                }
+                _ => {
+                    panic!(
+                        "Unsupported pattern {:?} in language {:?}",
+                        pattern, lang.name
+                    );
+                }
+            }
         }
-        for fname in &lang.filenames {
-            writeln!(
-                out,
-                "        filename_map.insert({:?}, id);",
-                fname.to_lowercase()
-            )
-            .unwrap();
-        }
-        for prefix in &lang.filename_prefixes {
-            writeln!(
-                out,
-                "        filename_prefix_list.push(({:?}, id));",
-                prefix.to_lowercase()
-            )
-            .unwrap();
-        }
+
         for interp in &lang.interpreters {
             writeln!(
                 out,
