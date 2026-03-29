@@ -301,6 +301,28 @@ impl<'a> Counter<'a> {
                         break;
                     }
 
+                    // Block comment at start of line. Must precede the line comment check
+                    // since in some languages (Lua, Julia) the line comment marker is a
+                    // prefix of the block comment start marker.
+                    if let Some((block_start, block_end)) = self.syntax.block_comment
+                        && trimmed.starts_with(block_start)
+                    {
+                        has_comment = true;
+                        at_line_start = false;
+                        let after_open =
+                            cursor + (remaining.len() - trimmed.len()) + block_start.len();
+                        match memmem::find(&line_bytes[after_open..], block_end) {
+                            None => {
+                                self.state = State::InBlockComment;
+                                break;
+                            }
+                            Some(off) => {
+                                cursor = after_open + off + block_end.len();
+                                continue;
+                            }
+                        }
+                    }
+
                     // Check if line starts with a line comment
                     if let Some(prefix) = self.syntax.line_comment
                         && trimmed.starts_with(prefix)
