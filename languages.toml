@@ -4,6 +4,12 @@ patterns = ["*.asm", "*.s"]
 line_comment = ";"
 
 [[language]]
+name = "AWK"
+patterns = ["*.awk"]
+interpreters = ["awk", "gawk", "mawk", "nawk"]
+line_comment = "#"
+
+[[language]]
 name = "C"
 patterns = ["*.c", "*.h"]
 line_comment = "//"
@@ -198,6 +204,12 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { 
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
 
 [[language]]
+name = "jq"
+patterns = ["*.jq"]
+interpreters = ["jq"]
+line_comment = "#"
+
+[[language]]
 name = "JSON"
 patterns = ["*.json"]
 
@@ -349,6 +361,12 @@ block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
+name = "Sed"
+patterns = ["*.sed"]
+interpreters = ["sed", "gsed"]
+line_comment = "#"
 
 [[language]]
 name = "Scheme"
