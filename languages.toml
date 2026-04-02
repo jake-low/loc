@@ -114,6 +114,11 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
 
 [[language]]
+name = "Erlang"
+patterns = ["*.erl", "*.hrl"]
+line_comment = "%"
+
+[[language]]
 name = "F#"
 patterns = ["*.fs", "*.fsi", "*.fsx"]
 line_comment = "//"
@@ -121,6 +126,11 @@ block_comment_start = "(*"
 block_comment_end = "*)"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
+name = "Gleam"
+patterns = ["*.gleam"]
+line_comment = "//"
 
 [[language]]
 name = "Go"
