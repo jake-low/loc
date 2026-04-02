@@ -29,9 +29,33 @@ block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
+name = "Carbon"
+patterns = ["*.carbon"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
 name = "Clojure"
 patterns = ["*.clj", "*.cljs", "*.cljc"]
 line_comment = ";"
+
+[[language]]
+name = "CoffeeScript"
+patterns = ["*.coffee"]
+line_comment = "#"
+block_comment_start = "###"
+block_comment_end = "###"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+
+[[language]]
+name = "Common Lisp"
+patterns = ["*.lisp", "*.lsp", "*.cl", "*.asd"]
+line_comment = ";"
+block_comment_start = "#|"
+block_comment_end = "|#"
 
 [[language]]
 name = "Config"
@@ -39,11 +63,25 @@ patterns = ["*.conf"]
 line_comment = "#"
 
 [[language]]
+name = "Crystal"
+patterns = ["*.cr"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
 name = "CSS"
 patterns = ["*.css"]
 block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "D"
+patterns = ["*.d"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
 name = "Dart"
@@ -64,6 +102,15 @@ name = "Elixir"
 patterns = ["*.ex", "*.exs"]
 interpreters = ["elixir"]
 line_comment = "#"
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+
+[[language]]
+name = "Elm"
+patterns = ["*.elm"]
+line_comment = "--"
+block_comment_start = "{-"
+block_comment_end = "-}"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
 
 [[language]]
@@ -92,6 +139,12 @@ block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+
+[[language]]
+name = "Hare"
+patterns = ["*.ha"]
+line_comment = "//"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
 name = "HCL"
@@ -172,6 +225,15 @@ patterns = ["*.mk", "*.mak", "Makefile", "GNUmakefile", "Makefile.*"]
 line_comment = "#"
 
 [[language]]
+name = "Nim"
+patterns = ["*.nim"]
+line_comment = "#"
+block_comment_start = "#["
+block_comment_end = "]#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+
+[[language]]
 name = "Nix"
 patterns = ["*.nix"]
 line_comment = "#"
@@ -193,6 +255,15 @@ line_comment = "//"
 block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "Odin"
+patterns = ["*.odin"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = "`", close = "`", backslash_escapes = false }]
 
 [[language]]
 name = "Perl"
@@ -223,6 +294,20 @@ patterns = ["*.r", "*.R"]
 interpreters = ["Rscript"]
 line_comment = "#"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "Racket"
+patterns = ["*.rkt"]
+interpreters = ["racket"]
+line_comment = ";"
+block_comment_start = "#|"
+block_comment_end = "|#"
+
+[[language]]
+name = "Raku"
+patterns = ["*.raku", "*.rakumod", "*.rakutest", "*.rakudoc", "*.p6", "*.pm6", "*.pl6"]
+interpreters = ["perl6", "raku"]
+line_comment = "#"
 
 [[language]]
 name = "Ruby"
@@ -256,6 +341,13 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
 
 [[language]]
+name = "Scheme"
+patterns = ["*.scm", "*.ss"]
+line_comment = ";"
+block_comment_start = "#|"
+block_comment_end = "|#"
+
+[[language]]
 name = "Shell"
 patterns = ["*.sh", "*.bash", "*.zsh"]
 interpreters = ["sh", "bash", "dash", "zsh"]
@@ -277,6 +369,13 @@ block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+
+[[language]]
+name = "Tcl"
+patterns = ["*.tcl"]
+interpreters = ["tclsh", "wish"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
 name = "TOML"
