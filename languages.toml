@@ -152,6 +152,13 @@ patterns = ["*.gleam"]
 line_comment = "//"
 
 [[language]]
+name = "GLSL"
+patterns = ["*.glsl", "*.vert", "*.frag", "*.geom", "*.comp", "*.tesc", "*.tese"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+
+[[language]]
 name = "Go"
 patterns = ["*.go"]
 line_comment = "//"
@@ -182,6 +189,13 @@ line_comment = "#"
 block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
+name = "HLSL"
+patterns = ["*.hlsl", "*.cg", "*.cginc"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
 
 [[language]]
 name = "HTML"
@@ -439,6 +453,13 @@ block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
+
+[[language]]
+name = "WGSL"
+patterns = ["*.wgsl"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
 
 [[language]]
 name = "XML"
