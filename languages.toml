@@ -125,6 +125,12 @@ single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
 
 [[language]]
+name = "Emacs Lisp"
+patterns = ["*.el"]
+line_comment = ";"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
 name = "Erlang"
 patterns = ["*.erl", "*.hrl"]
 line_comment = "%"
@@ -468,6 +474,11 @@ block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 multiline_strings = [{ open = "`", close = "`", backslash_escapes = true }]
+
+[[language]]
+name = "Vim script"
+patterns = ["*.vim", ".vimrc", "vimrc", ".gvimrc", "gvimrc"]
+line_comment = '"'
 
 [[language]]
 name = "WGSL"
