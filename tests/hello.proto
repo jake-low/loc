@@ -1,0 +1,11 @@
+Smoke test: code, blank lines, and line comment
+lines=8 code=6 comments=1 blank=1
+---
+syntax = "proto3";
+
+// schema for a user record
+message User {
+  string name  = 1;
+  string email = 2;
+  int32  age   = 3;
+}

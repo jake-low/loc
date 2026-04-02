@@ -35,6 +35,11 @@ block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 
 [[language]]
+name = "Cap'n Proto"
+patterns = ["*.capnp"]
+line_comment = "#"
+
+[[language]]
 name = "Carbon"
 patterns = ["*.carbon"]
 line_comment = "//"
@@ -132,6 +137,14 @@ block_comment_start = "(*"
 block_comment_end = "*)"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
+name = "FlatBuffers"
+patterns = ["*.fbs"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
 name = "Gleam"
@@ -301,6 +314,14 @@ line_comment = "//"
 block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "Protobuf"
+patterns = ["*.proto"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
 name = "Python"

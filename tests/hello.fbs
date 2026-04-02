@@ -1,0 +1,13 @@
+Smoke test: code, blank lines, and line comment
+lines=10 code=6 comments=1 blank=3
+---
+// schema for a game monster
+
+namespace MyGame;
+
+table Monster {
+  name: string;
+  hp:   short = 100;
+}
+
+root_type Monster;
