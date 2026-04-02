@@ -147,6 +147,21 @@ block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
 
 [[language]]
+name = "Game Maker Language"
+patterns = ["*.gml"]
+line_comment = "//"
+block_comment_start = "/*"
+block_comment_end = "*/"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
+
+[[language]]
+name = "GDScript"
+patterns = ["*.gd"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]
+
+[[language]]
 name = "Gleam"
 patterns = ["*.gleam"]
 line_comment = "//"
