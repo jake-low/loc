@@ -363,6 +363,7 @@ name = "Python"
 patterns = ["*.py"]
 interpreters = ["python", "python2", "python3"]
 line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
 multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
 docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
 
@@ -444,6 +445,14 @@ line_comment = "--"
 block_comment_start = "/*"
 block_comment_end = "*/"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+
+[[language]]
+name = "Starlark"
+patterns = ["*.star", "*.bzl", "BUILD", "BUILD.bazel", "WORKSPACE", "WORKSPACE.bazel"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
 
 [[language]]
 name = "Swift"
