@@ -390,7 +390,7 @@ line_comment = "#"
 
 [[language]]
 name = "Ruby"
-patterns = ["*.rb"]
+patterns = ["*.rb", "*.gemspec", "*.rake", "Gemfile", "Rakefile"]
 interpreters = ["ruby"]
 line_comment = "#"
 
