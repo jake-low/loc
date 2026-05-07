@@ -465,7 +465,7 @@ multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
 
 [[language]]
 name = "Tcl"
-patterns = ["*.tcl"]
+patterns = ["*.tcl", "*.tk"]
 interpreters = ["tclsh", "wish"]
 line_comment = "#"
 single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }]
