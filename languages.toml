@@ -28,7 +28,7 @@ multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false },
 
 [[language]]
 name = "C++"
-patterns = ["*.cpp", "*.hpp", "*.cc", "*.hh", "*.cxx"]
+patterns = ["*.cpp", "*.hpp", "*.cc", "*.hh", "*.cxx", "*.hxx"]
 line_comment = "//"
 block_comment_start = "/*"
 block_comment_end = "*/"
