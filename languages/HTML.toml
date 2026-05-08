@@ -1,0 +1,3 @@
+patterns = ["*.html", "*.htm"]
+block_comment_start = "<!--"
+block_comment_end = "-->"

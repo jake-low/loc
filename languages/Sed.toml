@@ -1,0 +1,3 @@
+patterns = ["*.sed"]
+interpreters = ["sed", "gsed"]
+line_comment = "#"

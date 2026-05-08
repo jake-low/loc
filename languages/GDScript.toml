@@ -1,0 +1,4 @@
+patterns = ["*.gd"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = false }]

@@ -1,0 +1,4 @@
+patterns = ["*.lisp", "*.lsp", "*.cl", "*.asd"]
+line_comment = ";"
+block_comment_start = "#|"
+block_comment_end = "|#"

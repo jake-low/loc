@@ -1,0 +1,6 @@
+patterns = ["*.py"]
+interpreters = ["python", "python2", "python3"]
+line_comment = "#"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]
+docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }, { open = "'''", close = "'''", backslash_escapes = true }]

@@ -1,0 +1,6 @@
+patterns = ["*.lua"]
+interpreters = ["lua"]
+line_comment = "--"
+block_comment_start = "--[["
+block_comment_end = "]]"
+single_line_strings = [{ open = '"', close = '"', backslash_escapes = true }, { open = "'", close = "'", backslash_escapes = true }]

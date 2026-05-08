@@ -1,0 +1,7 @@
+patterns = ["*.jl"]
+interpreters = ["julia"]
+line_comment = "#"
+block_comment_start = "#="
+block_comment_end = "=#"
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
+docstring_delimiters = [{ open = '"""', close = '"""', backslash_escapes = true }]

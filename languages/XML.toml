@@ -1,0 +1,3 @@
+patterns = ["*.xml"]
+block_comment_start = "<!--"
+block_comment_end = "-->"

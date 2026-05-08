@@ -1,0 +1,3 @@
+patterns = ["*.pl", "*.pm"]
+interpreters = ["perl"]
+line_comment = "#"

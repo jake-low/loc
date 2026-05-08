@@ -1,0 +1,3 @@
+patterns = ["*.awk"]
+interpreters = ["awk", "gawk", "mawk", "nawk"]
+line_comment = "#"

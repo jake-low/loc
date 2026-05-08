@@ -1,0 +1,3 @@
+patterns = ["*.jq"]
+interpreters = ["jq"]
+line_comment = "#"

@@ -1,0 +1,3 @@
+patterns = ["*.rb", "*.gemspec", "*.rake", "Gemfile", "Rakefile"]
+interpreters = ["ruby"]
+line_comment = "#"

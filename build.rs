@@ -8,12 +8,8 @@ use serde::Deserialize;
 // Generate language data
 
 #[derive(Deserialize)]
-struct Config {
-    language: Vec<LanguageDef>,
-}
-
-#[derive(Deserialize)]
 struct LanguageDef {
+    #[serde(skip)]
     name: String,
 
     /// Glob-style filename patterns for this language. Supports:
@@ -87,7 +83,7 @@ struct LookupTables {
     interpreters: BTreeMap<String, usize>,
 }
 
-fn build_lookup_tables(config: &Config) -> LookupTables {
+fn build_lookup_tables(langs: &[LanguageDef]) -> LookupTables {
     fn insert(
         map: &mut BTreeMap<String, usize>,
         kind: &str,
@@ -107,7 +103,7 @@ fn build_lookup_tables(config: &Config) -> LookupTables {
     }
 
     let mut tables = LookupTables::default();
-    for (id, lang) in config.language.iter().enumerate() {
+    for (id, lang) in langs.iter().enumerate() {
         for pattern in &lang.patterns {
             let star_count = pattern.bytes().filter(|&b| b == b'*').count();
             match star_count {
@@ -116,7 +112,7 @@ fn build_lookup_tables(config: &Config) -> LookupTables {
                     "filename",
                     pattern.clone(),
                     id,
-                    &config.language,
+                    &langs,
                 ),
                 1 => {
                     if let Some(ext) = pattern.strip_prefix("*.") {
@@ -125,7 +121,7 @@ fn build_lookup_tables(config: &Config) -> LookupTables {
                             "extension",
                             ext.to_string(),
                             id,
-                            &config.language,
+                            &langs,
                         );
                     } else if let Some(prefix) = pattern.strip_suffix('*') {
                         insert(
@@ -133,7 +129,7 @@ fn build_lookup_tables(config: &Config) -> LookupTables {
                             "filename prefix",
                             prefix.to_string(),
                             id,
-                            &config.language,
+                            &langs,
                         );
                     } else {
                         panic!(
@@ -154,7 +150,7 @@ fn build_lookup_tables(config: &Config) -> LookupTables {
                 "interpreter",
                 interp.to_lowercase(),
                 id,
-                &config.language,
+                &langs,
             );
         }
     }
@@ -162,12 +158,35 @@ fn build_lookup_tables(config: &Config) -> LookupTables {
 }
 
 fn gen_lang_data(out_dir: &str) {
-    println!("cargo:rerun-if-changed=languages.toml");
+    println!("cargo:rerun-if-changed=languages/");
 
-    let src = fs::read_to_string("languages.toml").expect("failed to read languages.toml");
-    let config: Config = toml::from_str(&src).expect("failed to parse languages.toml");
+    let mut entries: Vec<_> = fs::read_dir("languages")
+        .expect("failed to read languages/ directory")
+        .filter_map(|e| e.ok())
+        .filter(|e| {
+            e.path().extension().and_then(|s| s.to_str()) == Some("toml") && e.path().is_file()
+        })
+        .collect();
+    entries.sort_by_key(|e| e.file_name());
 
-    let tables = build_lookup_tables(&config);
+    let mut languages = Vec::new();
+    for entry in &entries {
+        let path = entry.path();
+        println!("cargo:rerun-if-changed={}", path.display());
+        let name = path
+            .file_stem()
+            .and_then(|s| s.to_str())
+            .expect("invalid language filename")
+            .to_string();
+        let src = fs::read_to_string(&path)
+            .unwrap_or_else(|e| panic!("failed to read {}: {}", path.display(), e));
+        let mut lang: LanguageDef = toml::from_str(&src)
+            .unwrap_or_else(|e| panic!("failed to parse {}: {}", path.display(), e));
+        lang.name = name;
+        languages.push(lang);
+    }
+
+    let tables = build_lookup_tables(&languages);
 
     let dest = Path::new(out_dir).join("lang_data.rs");
     let mut out = String::new();
@@ -179,7 +198,7 @@ fn gen_lang_data(out_dir: &str) {
     .unwrap();
     writeln!(out).unwrap();
 
-    for (i, lang) in config.language.iter().enumerate() {
+    for (i, lang) in languages.iter().enumerate() {
         write!(out, "static LANG_{i}_PATTERNS: &[&str] = &[").unwrap();
         for p in &lang.patterns {
             write!(out, "{:?},", p).unwrap();
@@ -233,7 +252,7 @@ fn gen_lang_data(out_dir: &str) {
     )
     .unwrap();
 
-    for (i, lang) in config.language.iter().enumerate() {
+    for (i, lang) in languages.iter().enumerate() {
         writeln!(out).unwrap();
         writeln!(out, "    // {}", lang.name).unwrap();
 

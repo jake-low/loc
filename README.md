@@ -43,9 +43,9 @@ As it reads the file, `loc` keeps track of whether it is currently in a block co
 
 ## Supported languages
 
-See [languages.toml](./languages.toml) (or run `loc --languages`) for a list of supported languages.
+Run `loc --languages` (or see the [languages/](./languages/) directory) for a list of supported languages.
 
-Language detection is based on file extension or filename (for things like `Makefile`). If that fails, `loc` checks if it has a `#!` line and tries to detect the language based on that. Files whose language can't be identified are silently skipped.
+Language detection is based on file extension (e.g. `*.py`) or filename (for things like `Makefile`). If that fails, `loc` checks if the file has a `#!` line and tries to detect the language based on that. Files whose language can't be identified are silently skipped.
 
 ## Is it fast?
 

@@ -1,0 +1,3 @@
+patterns = ["*.raku", "*.rakumod", "*.rakutest", "*.rakudoc", "*.p6", "*.pm6", "*.pl6"]
+interpreters = ["perl6", "raku"]
+line_comment = "#"

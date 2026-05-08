@@ -1,0 +1,2 @@
+patterns = ["*.erl", "*.hrl"]
+line_comment = "%"

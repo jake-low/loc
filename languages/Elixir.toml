@@ -1,0 +1,4 @@
+patterns = ["*.ex", "*.exs"]
+interpreters = ["elixir"]
+line_comment = "#"
+multiline_strings = [{ open = '"""', close = '"""', backslash_escapes = true }]
