@@ -1,4 +1,5 @@
-use std::fmt::Write as _;
+use std::collections::BTreeMap;
+use std::fmt::Write;
 use std::fs;
 use std::path::Path;
 
@@ -78,11 +79,95 @@ fn emit_delimiter_array(out: &mut String, name: &str, delims: &[StringDelimiterD
     writeln!(out, "];").unwrap();
 }
 
+#[derive(Default)]
+struct LookupTables {
+    extensions: BTreeMap<String, usize>,
+    filenames: BTreeMap<String, usize>,
+    prefixes: BTreeMap<String, usize>,
+    interpreters: BTreeMap<String, usize>,
+}
+
+fn build_lookup_tables(config: &Config) -> LookupTables {
+    fn insert(
+        map: &mut BTreeMap<String, usize>,
+        kind: &str,
+        key: String,
+        id: usize,
+        langs: &[LanguageDef],
+    ) {
+        if let Some(&prev) = map.get(&key) {
+            if prev != id {
+                panic!(
+                    "languages.toml: {} {:?} is claimed by both {:?} and {:?}",
+                    kind, key, langs[prev].name, langs[id].name
+                );
+            }
+        }
+        map.insert(key, id);
+    }
+
+    let mut tables = LookupTables::default();
+    for (id, lang) in config.language.iter().enumerate() {
+        for pattern in &lang.patterns {
+            let star_count = pattern.bytes().filter(|&b| b == b'*').count();
+            match star_count {
+                0 => insert(
+                    &mut tables.filenames,
+                    "filename",
+                    pattern.clone(),
+                    id,
+                    &config.language,
+                ),
+                1 => {
+                    if let Some(ext) = pattern.strip_prefix("*.") {
+                        insert(
+                            &mut tables.extensions,
+                            "extension",
+                            ext.to_string(),
+                            id,
+                            &config.language,
+                        );
+                    } else if let Some(prefix) = pattern.strip_suffix('*') {
+                        insert(
+                            &mut tables.prefixes,
+                            "filename prefix",
+                            prefix.to_string(),
+                            id,
+                            &config.language,
+                        );
+                    } else {
+                        panic!(
+                            "Unsupported pattern {:?} in language {:?}",
+                            pattern, lang.name
+                        );
+                    }
+                }
+                _ => panic!(
+                    "Unsupported pattern {:?} in language {:?}",
+                    pattern, lang.name
+                ),
+            }
+        }
+        for interp in &lang.interpreters {
+            insert(
+                &mut tables.interpreters,
+                "interpreter",
+                interp.to_lowercase(),
+                id,
+                &config.language,
+            );
+        }
+    }
+    tables
+}
+
 fn gen_lang_data(out_dir: &str) {
     println!("cargo:rerun-if-changed=languages.toml");
 
     let src = fs::read_to_string("languages.toml").expect("failed to read languages.toml");
     let config: Config = toml::from_str(&src).expect("failed to parse languages.toml");
+
+    let tables = build_lookup_tables(&config);
 
     let dest = Path::new(out_dir).join("lang_data.rs");
     let mut out = String::new();
@@ -151,8 +236,6 @@ fn gen_lang_data(out_dir: &str) {
     for (i, lang) in config.language.iter().enumerate() {
         writeln!(out).unwrap();
         writeln!(out, "    // {}", lang.name).unwrap();
-        writeln!(out, "    {{").unwrap();
-        writeln!(out, "        let id = LanguageId(languages.len());").unwrap();
 
         let line_comment = lang
             .line_comment
@@ -166,62 +249,42 @@ fn gen_lang_data(out_dir: &str) {
             _ => "None".into(),
         };
 
+        writeln!(out, "    languages.push(({:?}, LangSyntax {{", lang.name).unwrap();
+        writeln!(out, "        line_comment: {line_comment},").unwrap();
+        writeln!(out, "        block_comment: {block_comment},").unwrap();
+        writeln!(out, "        single_line_strings: LANG_{i}_SL,").unwrap();
+        writeln!(out, "        multiline_strings: LANG_{i}_ML,").unwrap();
+        writeln!(out, "        docstring_delimiters: LANG_{i}_DS,").unwrap();
+        writeln!(out, "    }}, LANG_{i}_PATTERNS));").unwrap();
+    }
+
+    writeln!(out).unwrap();
+    for (ext, &id) in &tables.extensions {
+        writeln!(out, "    ext_map.insert({:?}, LanguageId({}));", ext, id).unwrap();
+    }
+    for (name, &id) in &tables.filenames {
         writeln!(
             out,
-            "        languages.push(({:?}, LangSyntax {{",
-            lang.name
+            "    filename_map.insert({:?}, LanguageId({}));",
+            name, id
         )
         .unwrap();
-        writeln!(out, "            line_comment: {line_comment},").unwrap();
-        writeln!(out, "            block_comment: {block_comment},").unwrap();
-        writeln!(out, "            single_line_strings: LANG_{i}_SL,").unwrap();
-        writeln!(out, "            multiline_strings: LANG_{i}_ML,").unwrap();
-        writeln!(out, "            docstring_delimiters: LANG_{i}_DS,").unwrap();
-        writeln!(out, "        }}, LANG_{i}_PATTERNS));").unwrap();
-
-        for pattern in &lang.patterns {
-            let star_count = pattern.bytes().filter(|&b| b == b'*').count();
-            match star_count {
-                0 => {
-                    writeln!(out, "        filename_map.insert({:?}, id);", pattern).unwrap();
-                }
-                1 => {
-                    if let Some(ext) = pattern.strip_prefix("*.") {
-                        writeln!(out, "        ext_map.insert({:?}, id);", ext).unwrap();
-                    } else if pattern.ends_with("*") {
-                        let prefix = &pattern[..pattern.len() - 1];
-                        writeln!(
-                            out,
-                            "        filename_prefix_list.push(({:?}, id));",
-                            prefix
-                        )
-                        .unwrap();
-                    } else {
-                        panic!(
-                            "Unsupported pattern {:?} in language {:?}",
-                            pattern, lang.name
-                        );
-                    }
-                }
-                _ => {
-                    panic!(
-                        "Unsupported pattern {:?} in language {:?}",
-                        pattern, lang.name
-                    );
-                }
-            }
-        }
-
-        for interp in &lang.interpreters {
-            writeln!(
-                out,
-                "        interpreter_map.insert({:?}, id);",
-                interp.to_lowercase()
-            )
-            .unwrap();
-        }
-
-        writeln!(out, "    }}").unwrap();
+    }
+    for (prefix, &id) in &tables.prefixes {
+        writeln!(
+            out,
+            "    filename_prefix_list.push(({:?}, LanguageId({})));",
+            prefix, id
+        )
+        .unwrap();
+    }
+    for (interp, &id) in &tables.interpreters {
+        writeln!(
+            out,
+            "    interpreter_map.insert({:?}, LanguageId({}));",
+            interp, id
+        )
+        .unwrap();
     }
 
     writeln!(out).unwrap();
